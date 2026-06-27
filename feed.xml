@@ -3,9 +3,9 @@
      xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
      xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>Radio Montecarlo – Noticias 7am</title>
+    <title>Radio Montecarlo – Noticias 6:30am</title>
     <link>https://www.radiomontecarlo.com.uy</link>
-    <description>Noticias de las 7 de la mañana de Radio Montecarlo CX20 930 AM, Uruguay.</description>
+    <description>Noticias de las 6:30 de la mañana de Radio Montecarlo CX20 930 AM, Uruguay.</description>
     <language>es-uy</language>
     <lastBuildDate>Sat, 27 Jun 2026 09:11:47 +0000</lastBuildDate>
     <itunes:author>Radio Montecarlo CX20 930 AM</itunes:author>
@@ -14,7 +14,7 @@
     <itunes:explicit>no</itunes:explicit>
     
     <item>
-      <title>Montecarlo 7am – 2026-06-27</title>
+      <title>Montecarlo 6:30am – 2026-06-27</title>
       <description>Noticias de Radio Montecarlo CX20 930 AM del 2026-06-27</description>
       <pubDate>Sat, 27 Jun 2026 07:05:00 -0300</pubDate>
       <enclosure url="https://github.com/gabrielinchausti/montecarlo-podcast/releases/download/ep-2026-06-27/episodio-2026-06-27.mp3" type="audio/mpeg" length="0"/>

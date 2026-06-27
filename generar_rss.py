@@ -15,8 +15,8 @@ REPO        = os.environ.get("REPO", "TU_USUARIO/montecarlo-podcast")
 TOKEN       = os.environ.get("GITHUB_TOKEN", "")
 OWNER, NAME = REPO.split("/")
 BASE_URL    = f"https://github.com/{REPO}/releases/download"
-FEED_TITLE  = "Radio Montecarlo – Noticias 7am"
-FEED_DESC   = "Noticias de las 7 de la mañana de Radio Montecarlo CX20 930 AM, Uruguay."
+FEED_TITLE  = "Radio Montecarlo – Noticias 6:30am"
+FEED_DESC   = "Noticias de las 6:30 de la mañana de Radio Montecarlo CX20 930 AM, Uruguay."
 FEED_LINK   = "https://www.radiomontecarlo.com.uy"
 FEED_LANG   = "es-uy"
 FEED_IMG    = "https://www.radiomontecarlo.com.uy/artworks/artworks_radiomontecarlocomuy/logos/logo_social.jpg"
@@ -44,18 +44,18 @@ def release_to_item(release):
     # Fecha en formato RFC 2822 para RSS
     try:
         dt = datetime.strptime(fecha, "%Y-%m-%d")
-        pub_date = dt.strftime("%a, %d %b %Y 07:05:00 -0300")
+        pub_date = dt.strftime("%a, %d %b %Y 06:40:00 -0300")
     except ValueError:
         pub_date = release.get("published_at", "")[:10]
 
     return f"""
     <item>
-      <title>Montecarlo 7am – {fecha}</title>
+      <title>Montecarlo 6:30am – {fecha}</title>
       <description>Noticias de Radio Montecarlo CX20 930 AM del {fecha}</description>
       <pubDate>{pub_date}</pubDate>
       <enclosure url="{mp3_url}" type="audio/mpeg" length="0"/>
       <guid isPermaLink="false">{mp3_url}</guid>
-      <itunes:duration>5:00</itunes:duration>
+      <itunes:duration>10:00</itunes:duration>
       <itunes:explicit>no</itunes:explicit>
     </item>"""
 
