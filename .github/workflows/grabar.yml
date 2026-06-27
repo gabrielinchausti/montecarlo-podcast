@@ -2,7 +2,7 @@ name: Grabar Montecarlo 6:30am
 
 on:
   schedule:
-    - cron: '28 9 * * 1-7'  # 6:28 AM Uruguay (UTC-3), lunes a domingo
+    - cron: '28 9 * * *'  # 6:28 AM Uruguay (UTC-3), todos los días
   workflow_dispatch:          # También podés lanzarlo a mano para probar
 
 jobs:
