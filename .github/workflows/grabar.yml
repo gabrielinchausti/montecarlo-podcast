@@ -2,7 +2,7 @@ name: Grabar Montecarlo 7am
 
 on:
   schedule:
-    - cron: '5 10 * * 1-5'  # 7:05 AM Uruguay (UTC-3), lunes a viernes
+    - cron: '58 9 * * 1-5'  # 6:58 AM Uruguay (UTC-3), lunes a viernes
   workflow_dispatch:          # También podés lanzarlo a mano para probar
 
 jobs:
@@ -22,7 +22,7 @@ jobs:
           FECHA=$(TZ="America/Montevideo" date +%Y-%m-%d)
           echo "Grabando noticias del ${FECHA}..."
           ffmpeg -i "https://streamingcasazorrilla.innovanexo.com:8000/montecarlo.mp3" \
-            -t 300 \
+            -t 600 \
             -acodec libmp3lame \
             -ab 128k \
             -y \
@@ -50,3 +50,19 @@ jobs:
           git add feed.xml
           git commit -m "RSS actualizado ${{ env.FECHA }}" || echo "Sin cambios en el RSS"
           git push
+     
+      - name: Borrar episodios viejos (más de 30 días)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release list --limit 100 --json tagName,publishedAt \
+          | python3 -c "
+          import json, sys, subprocess, datetime
+          releases = json.load(sys.stdin)
+          cutoff = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=30)
+          for r in releases:
+              fecha = datetime.datetime.fromisoformat(r['publishedAt'].replace('Z','+00:00'))
+              if fecha < cutoff:
+                  subprocess.run(['gh', 'release', 'delete', r['tagName'], '--yes', '--cleanup-tag'])
+                  print(f'Borrado: {r[\"tagName\"]}')
+          "
