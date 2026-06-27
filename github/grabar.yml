@@ -1,0 +1,52 @@
+name: Grabar Montecarlo 7am
+
+on:
+  schedule:
+    - cron: '5 10 * * 1-5'  # 7:05 AM Uruguay (UTC-3), lunes a viernes
+  workflow_dispatch:          # También podés lanzarlo a mano para probar
+
+jobs:
+  grabar:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Instalar ffmpeg
+        run: sudo apt-get install -y ffmpeg
+
+      - name: Grabar 5 minutos del stream
+        run: |
+          FECHA=$(TZ="America/Montevideo" date +%Y-%m-%d)
+          echo "Grabando noticias del ${FECHA}..."
+          ffmpeg -i "https://streamingcasazorrilla.innovanexo.com:8000/montecarlo.mp3" \
+            -t 300 \
+            -acodec libmp3lame \
+            -ab 128k \
+            -y \
+            "episodio-${FECHA}.mp3"
+          echo "FECHA=${FECHA}" >> $GITHUB_ENV
+
+      - name: Subir MP3 como Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: "ep-${{ env.FECHA }}"
+          name: "Montecarlo 7am - ${{ env.FECHA }}"
+          body: "Noticias de las 7:00 AM de Radio Montecarlo CX20 - ${{ env.FECHA }}"
+          files: "episodio-${{ env.FECHA }}.mp3"
+
+      - name: Actualizar feed RSS
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: python3 generar_rss.py
+
+      - name: Commit y push del RSS actualizado
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add feed.xml
+          git commit -m "RSS actualizado ${{ env.FECHA }}" || echo "Sin cambios en el RSS"
+          git push

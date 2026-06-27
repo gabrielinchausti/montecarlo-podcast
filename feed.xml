@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+     xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
+  <channel>
+    <title>Radio Montecarlo – Noticias 7am</title>
+    <link>https://www.radiomontecarlo.com.uy</link>
+    <description>Noticias de las 7 de la mañana de Radio Montecarlo CX20 930 AM, Uruguay.</description>
+    <language>es-uy</language>
+    <itunes:author>Radio Montecarlo CX20 930 AM</itunes:author>
+    <itunes:category text="News"/>
+    <itunes:explicit>no</itunes:explicit>
+    <!-- Los episodios aparecerán aquí automáticamente cada día hábil -->
+  </channel>
+</rss>
