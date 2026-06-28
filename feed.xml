@@ -7,19 +7,28 @@
     <link>https://www.radiomontecarlo.com.uy</link>
     <description>Noticias de las 6:30 de la mañana de Radio Montecarlo CX20 930 AM, Uruguay.</description>
     <language>es-uy</language>
-    <lastBuildDate>Sat, 27 Jun 2026 09:11:47 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 28 Jun 2026 11:30:24 +0000</lastBuildDate>
     <itunes:author>Radio Montecarlo CX20 930 AM</itunes:author>
     <itunes:category text="News"/>
     <itunes:image href="https://www.radiomontecarlo.com.uy/artworks/artworks_radiomontecarlocomuy/logos/logo_social.jpg"/>
     <itunes:explicit>no</itunes:explicit>
     
     <item>
+      <title>Montecarlo 6:30am – 2026-06-28</title>
+      <description>Noticias de Radio Montecarlo CX20 930 AM del 2026-06-28</description>
+      <pubDate>Sun, 28 Jun 2026 06:40:00 -0300</pubDate>
+      <enclosure url="https://github.com/gabrielinchausti/montecarlo-podcast/releases/download/ep-2026-06-28/episodio-2026-06-28.mp3" type="audio/mpeg" length="0"/>
+      <guid isPermaLink="false">https://github.com/gabrielinchausti/montecarlo-podcast/releases/download/ep-2026-06-28/episodio-2026-06-28.mp3</guid>
+      <itunes:duration>10:00</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+    </item>
+    <item>
       <title>Montecarlo 6:30am – 2026-06-27</title>
       <description>Noticias de Radio Montecarlo CX20 930 AM del 2026-06-27</description>
-      <pubDate>Sat, 27 Jun 2026 07:05:00 -0300</pubDate>
+      <pubDate>Sat, 27 Jun 2026 06:40:00 -0300</pubDate>
       <enclosure url="https://github.com/gabrielinchausti/montecarlo-podcast/releases/download/ep-2026-06-27/episodio-2026-06-27.mp3" type="audio/mpeg" length="0"/>
       <guid isPermaLink="false">https://github.com/gabrielinchausti/montecarlo-podcast/releases/download/ep-2026-06-27/episodio-2026-06-27.mp3</guid>
-      <itunes:duration>5:00</itunes:duration>
+      <itunes:duration>10:00</itunes:duration>
       <itunes:explicit>no</itunes:explicit>
     </item>
   </channel>
