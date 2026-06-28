@@ -17,7 +17,7 @@ jobs:
       - name: Instalar ffmpeg
         run: sudo apt-get install -y ffmpeg
 
-      - name: Grabar 5 minutos del stream
+      - name: Grabar 10 minutos del stream
         run: |
           FECHA=$(TZ="America/Montevideo" date +%Y-%m-%d)
           echo "Grabando noticias del ${FECHA}..."
@@ -36,6 +36,9 @@ jobs:
           name: "Montecarlo - ${{ env.FECHA }}"
           body: "Noticias de las 6:30 AM de Radio Montecarlo CX20 - ${{ env.FECHA }}"
           files: "episodio-${{ env.FECHA }}.mp3"
+
+      - name: Esperar que GitHub procese el release
+        run: sleep 30
 
       - name: Actualizar feed RSS
         env:
