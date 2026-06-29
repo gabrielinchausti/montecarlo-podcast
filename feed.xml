@@ -7,12 +7,21 @@
     <link>https://www.radiomontecarlo.com.uy</link>
     <description>Grabaciones de Radio Montecarlo CX20 930 AM, Uruguay.</description>
     <language>es-uy</language>
-    <lastBuildDate>Mon, 29 Jun 2026 14:02:15 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 29 Jun 2026 18:17:42 +0000</lastBuildDate>
     <itunes:author>Radio Montecarlo CX20 930 AM</itunes:author>
     <itunes:category text="News"/>
     <itunes:image href="https://www.radiomontecarlo.com.uy/artworks/artworks_radiomontecarlocomuy/logos/logo_social.jpg"/>
     <itunes:explicit>no</itunes:explicit>
     
+    <item>
+      <title>Montecarlo 15:07 – 2026-06-29</title>
+      <description>Grabación de Radio Montecarlo CX20 930 AM del 2026-06-29 a las 15:07</description>
+      <pubDate>Mon, 29 Jun 2026 15:07:00 -0300</pubDate>
+      <enclosure url="https://github.com/gabrielinchausti/montecarlo-podcast/releases/download/ep-2026-06-29-1507/episodio-2026-06-29-1507.mp3" type="audio/mpeg" length="0"/>
+      <guid isPermaLink="false">https://github.com/gabrielinchausti/montecarlo-podcast/releases/download/ep-2026-06-29-1507/episodio-2026-06-29-1507.mp3</guid>
+      <itunes:duration>10:00</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+    </item>
     <item>
       <title>Montecarlo 10:51 – 2026-06-29</title>
       <description>Grabación de Radio Montecarlo CX20 930 AM del 2026-06-29 a las 10:51</description>
