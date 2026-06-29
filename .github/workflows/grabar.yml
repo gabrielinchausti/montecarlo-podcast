@@ -2,8 +2,10 @@ name: Grabar Montecarlo 6:30am
 
 on:
   schedule:
-    - cron: '28 9 * * *'  # 6:28 AM Uruguay (UTC-3), todos los días
-  workflow_dispatch:          # También podés lanzarlo a mano para probar
+    - cron: '28 9 * * *'   # 6:28 AM Uruguay (UTC-3)
+    - cron: '58 9 * * *'   # 6:58 AM Uruguay (UTC-3)
+    - cron: '58 15 * * *'  # 12:58 PM Uruguay (UTC-3)
+  workflow_dispatch:
 
 jobs:
   grabar:
@@ -20,22 +22,26 @@ jobs:
       - name: Grabar 10 minutos del stream
         run: |
           FECHA=$(TZ="America/Montevideo" date +%Y-%m-%d)
-          echo "Grabando noticias del ${FECHA}..."
+          HORA=$(TZ="America/Montevideo" date +%H%M)
+          NOMBRE="episodio-${FECHA}-${HORA}"
+          echo "Grabando ${NOMBRE}..."
           ffmpeg -i "https://streamingcasazorrilla.innovanexo.com:8000/montecarlo.mp3" \
             -t 600 \
             -acodec libmp3lame \
             -ab 128k \
             -y \
-            "episodio-${FECHA}.mp3"
+            "${NOMBRE}.mp3"
           echo "FECHA=${FECHA}" >> $GITHUB_ENV
+          echo "HORA=${HORA}" >> $GITHUB_ENV
+          echo "NOMBRE=${NOMBRE}" >> $GITHUB_ENV
 
       - name: Subir MP3 como Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: "ep-${{ env.FECHA }}"
-          name: "Montecarlo - ${{ env.FECHA }}"
-          body: "Noticias de las 6:30 AM de Radio Montecarlo CX20 - ${{ env.FECHA }}"
-          files: "episodio-${{ env.FECHA }}.mp3"
+          tag_name: "ep-${{ env.FECHA }}-${{ env.HORA }}"
+          name: "Montecarlo - ${{ env.FECHA }} ${{ env.HORA }}"
+          body: "Grabación de Radio Montecarlo CX20 - ${{ env.FECHA }} ${{ env.HORA }}"
+          files: "${{ env.NOMBRE }}.mp3"
 
       - name: Esperar que GitHub procese el release
         run: sleep 30
@@ -51,9 +57,9 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add feed.xml
-          git commit -m "RSS actualizado ${{ env.FECHA }}" || echo "Sin cambios en el RSS"
+          git commit -m "RSS actualizado ${{ env.FECHA }}-${{ env.HORA }}" || echo "Sin cambios"
           git push
-     
+
       - name: Borrar episodios viejos (más de 30 días)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

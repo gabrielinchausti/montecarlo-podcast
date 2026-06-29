@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """
 Genera el feed RSS del podcast a partir de los releases de GitHub.
-Ejecutar desde GitHub Actions o localmente con GITHUB_TOKEN y REPO definidos.
 """
 
 import json
@@ -15,12 +14,12 @@ REPO        = os.environ.get("REPO", "TU_USUARIO/montecarlo-podcast")
 TOKEN       = os.environ.get("GITHUB_TOKEN", "")
 OWNER, NAME = REPO.split("/")
 BASE_URL    = f"https://github.com/{REPO}/releases/download"
-FEED_TITLE  = "Radio Montecarlo – Noticias 6:30am"
-FEED_DESC   = "Noticias de las 6:30 de la mañana de Radio Montecarlo CX20 930 AM, Uruguay."
+FEED_TITLE  = "Radio Montecarlo – Noticias"
+FEED_DESC   = "Grabaciones de Radio Montecarlo CX20 930 AM, Uruguay."
 FEED_LINK   = "https://www.radiomontecarlo.com.uy"
 FEED_LANG   = "es-uy"
 FEED_IMG    = "https://www.radiomontecarlo.com.uy/artworks/artworks_radiomontecarlocomuy/logos/logo_social.jpg"
-MAX_EPS     = 30   # cuántos episodios mantener en el feed
+MAX_EPS     = 90   # 3 episodios por día × 30 días
 # ──────────────────────────────────────────────────────────────────────────────
 
 
@@ -35,23 +34,32 @@ def fetch_releases():
 
 
 def release_to_item(release):
-    tag   = release["tag_name"]          # ep-2025-07-14
-    fecha = tag.replace("ep-", "")       # 2025-07-14
+    tag = release["tag_name"]   # ep-2026-06-29-0628
+
+    # Separar fecha y hora del tag
+    partes = tag.replace("ep-", "").split("-")
+    # partes = ['2026', '06', '29', '0628']
+    fecha = "-".join(partes[:3])   # 2026-06-29
+    hora  = partes[3] if len(partes) > 3 else "0000"  # 0628
+
+    # Formatear hora para mostrar: 0628 → 06:28
+    hora_display = f"{hora[:2]}:{hora[2:]}"
 
     # URL directa al MP3
-    mp3_url = f"{BASE_URL}/{tag}/episodio-{fecha}.mp3"
+    nombre  = f"episodio-{fecha}-{hora}"
+    mp3_url = f"{BASE_URL}/{tag}/{nombre}.mp3"
 
     # Fecha en formato RFC 2822 para RSS
     try:
-        dt = datetime.strptime(fecha, "%Y-%m-%d")
-        pub_date = dt.strftime("%a, %d %b %Y 06:40:00 -0300")
+        dt       = datetime.strptime(f"{fecha} {hora}", "%Y-%m-%d %H%M")
+        pub_date = dt.strftime("%a, %d %b %Y %H:%M:%S -0300")
     except ValueError:
         pub_date = release.get("published_at", "")[:10]
 
     return f"""
     <item>
-      <title>Montecarlo 6:30am – {fecha}</title>
-      <description>Noticias de Radio Montecarlo CX20 930 AM del {fecha}</description>
+      <title>Montecarlo {hora_display} – {fecha}</title>
+      <description>Grabación de Radio Montecarlo CX20 930 AM del {fecha} a las {hora_display}</description>
       <pubDate>{pub_date}</pubDate>
       <enclosure url="{mp3_url}" type="audio/mpeg" length="0"/>
       <guid isPermaLink="false">{mp3_url}</guid>
