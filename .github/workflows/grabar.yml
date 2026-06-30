@@ -2,10 +2,9 @@ name: Grabar Montecarlo 6:30am
 
 on:
   schedule:
-    - cron: '28 9 * * *'   # 6:28 AM Uruguay (UTC-3)
-    - cron: '58 9 * * *'   # 6:58 AM Uruguay (UTC-3)
-    - cron: '58 15 * * *'  # 12:58 PM Uruguay (UTC-3)
-    - cron: '50 17 * * *'  # PRUEBA: 14:50 Uruguay (UTC-3) — borrar después
+    - cron: '26 9 * * *'   # 6:28 AM Uruguay (UTC-3)
+    - cron: '56 9 * * *'   # 6:58 AM Uruguay (UTC-3)
+    - cron: '56 15 * * *'  # 12:58 PM Uruguay (UTC-3)
   workflow_dispatch:
 
 jobs:
