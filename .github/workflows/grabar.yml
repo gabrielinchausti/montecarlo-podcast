@@ -5,6 +5,7 @@ on:
     - cron: '28 9 * * *'   # 6:28 AM Uruguay (UTC-3)
     - cron: '58 9 * * *'   # 6:58 AM Uruguay (UTC-3)
     - cron: '58 15 * * *'  # 12:58 PM Uruguay (UTC-3)
+    - cron: '50 17 * * *'  # PRUEBA: 14:50 Uruguay (UTC-3) — borrar después
   workflow_dispatch:
 
 jobs:
@@ -58,6 +59,7 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add feed.xml
           git commit -m "RSS actualizado ${{ env.FECHA }}-${{ env.HORA }}" || echo "Sin cambios"
+          git pull --rebase origin main
           git push
 
       - name: Borrar episodios viejos (más de 30 días)
