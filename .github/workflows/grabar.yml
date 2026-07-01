@@ -2,9 +2,7 @@ name: Grabar Montecarlo 6:30am
 
 on:
   schedule:
-    - cron: '26 9 * * *'   # 6:28 AM Uruguay (UTC-3)
-    - cron: '56 9 * * *'   # 6:58 AM Uruguay (UTC-3)
-    - cron: '56 15 * * *'  # 12:58 PM Uruguay (UTC-3)
+    - cron: '45 9 * * *'   # 7:00 AM Uruguay (UTC-3) — RadioCut ya tiene el audio listo
   workflow_dispatch:
 
 jobs:
@@ -16,21 +14,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4.2.2
 
-      - name: Instalar ffmpeg
-        run: sudo apt-get install -y ffmpeg
+      - name: Instalar radiocut_downloader
+        run: pip install radiocut_downloader --break-system-packages
 
-      - name: Grabar 10 minutos del stream
+      - name: Descargar audio de las 6:30 desde RadioCut
         run: |
           FECHA=$(TZ="America/Montevideo" date +%Y-%m-%d)
-          HORA=$(TZ="America/Montevideo" date +%H%M)
+          HORA="0630"
           NOMBRE="episodio-${FECHA}-${HORA}"
-          echo "Grabando ${NOMBRE}..."
-          ffmpeg -i "https://streamingcasazorrilla.innovanexo.com:8000/montecarlo.mp3" \
-            -t 600 \
-            -acodec libmp3lame \
-            -ab 128k \
-            -y \
-            "${NOMBRE}.mp3"
+          ANIO=$(echo $FECHA | cut -d'-' -f1)
+          MES=$(echo $FECHA | cut -d'-' -f2)
+          DIA=$(echo $FECHA | cut -d'-' -f3)
+          echo "Descargando audio del ${FECHA} 06:30..."
+          radiocut "https://uy.radiocut.fm/radiostation/montecarlouy/listen/${ANIO}/${MES}/${DIA}/06/28/00/" \
+            "${NOMBRE}" --duration=300
           echo "FECHA=${FECHA}" >> $GITHUB_ENV
           echo "HORA=${HORA}" >> $GITHUB_ENV
           echo "NOMBRE=${NOMBRE}" >> $GITHUB_ENV
@@ -40,7 +37,7 @@ jobs:
         with:
           tag_name: "ep-${{ env.FECHA }}-${{ env.HORA }}"
           name: "Montecarlo - ${{ env.FECHA }} ${{ env.HORA }}"
-          body: "Grabación de Radio Montecarlo CX20 - ${{ env.FECHA }} ${{ env.HORA }}"
+          body: "Noticias 6:30 AM de Radio Montecarlo CX20 - ${{ env.FECHA }}"
           files: "${{ env.NOMBRE }}.mp3"
 
       - name: Esperar que GitHub procese el release
