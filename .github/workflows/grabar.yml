@@ -2,7 +2,7 @@ name: Grabar Montecarlo 6:30am
 
 on:
   schedule:
-    - cron: '45 9 * * *'   # 7:00 AM Uruguay (UTC-3) — RadioCut ya tiene el audio listo
+    - cron: '0 9 * * *'   # 6:00 AM Uruguay (UTC-3) — graba 1 hora
   workflow_dispatch:
 
 jobs:
@@ -14,21 +14,32 @@ jobs:
     steps:
       - uses: actions/checkout@v4.2.2
 
-      - name: Instalar ffmpeg
-        run: sudo apt-get install -y ffmpeg
+      - name: Instalar ffmpeg y dependencias Python
+        run: |
+          sudo apt-get install -y ffmpeg
+          pip install openai --break-system-packages
 
-      - name: Descargar audio de las 6:28 desde RadioCut
+      - name: Grabar 1 hora del stream
         run: |
           FECHA=$(TZ="America/Montevideo" date +%Y-%m-%d)
-          HORA="0628"
-          NOMBRE="episodio-${FECHA}-${HORA}"
-          ANIO=$(echo $FECHA | cut -d'-' -f1)
-          MES=$(echo $FECHA | cut -d'-' -f2)
-          DIA=$(echo $FECHA | cut -d'-' -f3)
-          echo "Descargando audio del ${FECHA} 06:28..."
-          ffmpeg -i "https://uy.radiocut.fm/radiostation/montecarlouy/listen/${ANIO}/${MES}/${DIA}/06/28/00/" \
-            -t 300 -acodec libmp3lame -ab 128k -y "${NOMBRE}.mp3"
+          echo "Grabando 1 hora desde las 6:00..."
+          ffmpeg -i "https://streamingcasazorrilla.innovanexo.com:8000/montecarlo.mp3" \
+            -t 3600 \
+            -acodec libmp3lame \
+            -ab 64k \
+            -y \
+            "hora-completa-${FECHA}.mp3"
           echo "FECHA=${FECHA}" >> $GITHUB_ENV
+
+      - name: Procesar audio con OpenAI
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          HORA="0630"
+          NOMBRE="episodio-${{ env.FECHA }}-${HORA}"
+          python3 procesar_audio.py \
+            "hora-completa-${{ env.FECHA }}.mp3" \
+            "${NOMBRE}.mp3"
           echo "HORA=${HORA}" >> $GITHUB_ENV
           echo "NOMBRE=${NOMBRE}" >> $GITHUB_ENV
 
@@ -37,7 +48,7 @@ jobs:
         with:
           tag_name: "ep-${{ env.FECHA }}-${{ env.HORA }}"
           name: "Montecarlo - ${{ env.FECHA }} ${{ env.HORA }}"
-          body: "Noticias 6:30 AM de Radio Montecarlo CX20 - ${{ env.FECHA }}"
+          body: "Informativo 6:30 AM de Radio Montecarlo CX20 - ${{ env.FECHA }}"
           files: "${{ env.NOMBRE }}.mp3"
 
       - name: Esperar que GitHub procese el release
@@ -54,7 +65,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add feed.xml
-          git commit -m "RSS actualizado ${{ env.FECHA }}-${{ env.HORA }}" || echo "Sin cambios"
+          git commit -m "RSS actualizado ${{ env.FECHA }}-0630" || echo "Sin cambios"
           git pull --rebase origin main
           git push
 
