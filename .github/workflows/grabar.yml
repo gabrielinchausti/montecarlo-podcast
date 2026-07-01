@@ -2,7 +2,7 @@ name: Grabar Montecarlo 6:30am
 
 on:
   schedule:
-    - cron: '20 21 * * *'   # 6:28 AM Uruguay (UTC-3)
+    - cron: '25 21 * * *'   # 6:28 AM Uruguay (UTC-3)
   workflow_dispatch:
 
 jobs:
