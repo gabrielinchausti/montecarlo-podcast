@@ -27,7 +27,7 @@ jobs:
           MES=$(echo $FECHA | cut -d'-' -f2)
           DIA=$(echo $FECHA | cut -d'-' -f3)
           echo "Descargando audio del ${FECHA} 06:30..."
-          radiocut "https://uy.radiocut.fm/radiostation/montecarlouy/listen/${ANIO}/${MES}/${DIA}/06/28/00/" \
+          radiocut "https://radiocut.fm/radiostation/montecarlouy/listen/${ANIO}/${MES}/${DIA}/06/28/00/" \
             "${NOMBRE}" --duration=300
           echo "FECHA=${FECHA}" >> $GITHUB_ENV
           echo "HORA=${HORA}" >> $GITHUB_ENV
