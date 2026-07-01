@@ -14,21 +14,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4.2.2
 
-      - name: Instalar radiocut_downloader
-        run: |
-          pip install "moviepy==1.0.3" radiocut_downloader --break-system-packages
+      - name: Instalar ffmpeg
+        run: sudo apt-get install -y ffmpeg
 
-      - name: Descargar audio de las 6:30 desde RadioCut
+      - name: Descargar audio de las 6:28 desde RadioCut
         run: |
           FECHA=$(TZ="America/Montevideo" date +%Y-%m-%d)
-          HORA="0630"
+          HORA="0628"
           NOMBRE="episodio-${FECHA}-${HORA}"
           ANIO=$(echo $FECHA | cut -d'-' -f1)
           MES=$(echo $FECHA | cut -d'-' -f2)
           DIA=$(echo $FECHA | cut -d'-' -f3)
-          echo "Descargando audio del ${FECHA} 06:30..."
-          radiocut "https://radiocut.fm/radiostation/montecarlouy/listen/${ANIO}/${MES}/${DIA}/06/28/00/" \
-            "${NOMBRE}" --duration=300
+          echo "Descargando audio del ${FECHA} 06:28..."
+          ffmpeg -i "https://uy.radiocut.fm/radiostation/montecarlouy/listen/${ANIO}/${MES}/${DIA}/06/28/00/" \
+            -t 300 -acodec libmp3lame -ab 128k -y "${NOMBRE}.mp3"
           echo "FECHA=${FECHA}" >> $GITHUB_ENV
           echo "HORA=${HORA}" >> $GITHUB_ENV
           echo "NOMBRE=${NOMBRE}" >> $GITHUB_ENV
