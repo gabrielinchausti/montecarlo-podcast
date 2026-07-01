@@ -2,7 +2,9 @@ name: Grabar Montecarlo 6:30am
 
 on:
   schedule:
-    - cron: '0 9 * * *'   # 6:00 AM Uruguay (UTC-3) — graba 1 hora
+    - cron: '26 9 * * *'   # 6:28 AM Uruguay (UTC-3)
+    - cron: '56 9 * * *'   # 6:58 AM Uruguay (UTC-3)
+    - cron: '56 15 * * *'  # 12:58 PM Uruguay (UTC-3)
   workflow_dispatch:
 
 jobs:
@@ -14,32 +16,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4.2.2
 
-      - name: Instalar ffmpeg y dependencias Python
-        run: |
-          sudo apt-get install -y ffmpeg
-          pip install openai --break-system-packages
+      - name: Instalar ffmpeg
+        run: sudo apt-get install -y ffmpeg
 
-      - name: Grabar 1 hora del stream
+      - name: Grabar 10 minutos del stream
         run: |
           FECHA=$(TZ="America/Montevideo" date +%Y-%m-%d)
-          echo "Grabando 1 hora desde las 6:00..."
+          HORA=$(TZ="America/Montevideo" date +%H%M)
+          NOMBRE="episodio-${FECHA}-${HORA}"
+          echo "Grabando ${NOMBRE}..."
           ffmpeg -i "https://streamingcasazorrilla.innovanexo.com:8000/montecarlo.mp3" \
-            -t 3600 \
+            -t 600 \
             -acodec libmp3lame \
-            -ab 64k \
+            -ab 128k \
             -y \
-            "hora-completa-${FECHA}.mp3"
-          echo "FECHA=${FECHA}" >> $GITHUB_ENV
-
-      - name: Procesar audio con OpenAI
-        env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        run: |
-          HORA="0630"
-          NOMBRE="episodio-${{ env.FECHA }}-${HORA}"
-          python3 procesar_audio.py \
-            "hora-completa-${{ env.FECHA }}.mp3" \
             "${NOMBRE}.mp3"
+          echo "FECHA=${FECHA}" >> $GITHUB_ENV
           echo "HORA=${HORA}" >> $GITHUB_ENV
           echo "NOMBRE=${NOMBRE}" >> $GITHUB_ENV
 
@@ -48,7 +40,7 @@ jobs:
         with:
           tag_name: "ep-${{ env.FECHA }}-${{ env.HORA }}"
           name: "Montecarlo - ${{ env.FECHA }} ${{ env.HORA }}"
-          body: "Informativo 6:30 AM de Radio Montecarlo CX20 - ${{ env.FECHA }}"
+          body: "Grabación de Radio Montecarlo CX20 - ${{ env.FECHA }} ${{ env.HORA }}"
           files: "${{ env.NOMBRE }}.mp3"
 
       - name: Esperar que GitHub procese el release
@@ -65,7 +57,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add feed.xml
-          git commit -m "RSS actualizado ${{ env.FECHA }}-0630" || echo "Sin cambios"
+          git commit -m "RSS actualizado ${{ env.FECHA }}-${{ env.HORA }}" || echo "Sin cambios"
           git pull --rebase origin main
           git push
 

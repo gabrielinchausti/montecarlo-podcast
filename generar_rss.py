@@ -19,7 +19,7 @@ FEED_DESC   = "Grabaciones de Radio Montecarlo CX20 930 AM, Uruguay."
 FEED_LINK   = "https://www.radiomontecarlo.com.uy"
 FEED_LANG   = "es-uy"
 FEED_IMG    = "https://www.radiomontecarlo.com.uy/artworks/artworks_radiomontecarlocomuy/logos/logo_social.jpg"
-MAX_EPS     = 30   # 3 episodios por día × 30 días
+MAX_EPS     = 90   # 3 episodios por día × 30 días
 # ──────────────────────────────────────────────────────────────────────────────
 
 
@@ -63,7 +63,7 @@ def release_to_item(release):
       <pubDate>{pub_date}</pubDate>
       <enclosure url="{mp3_url}" type="audio/mpeg" length="0"/>
       <guid isPermaLink="false">{mp3_url}</guid>
-      <itunes:duration>5:00</itunes:duration>
+      <itunes:duration>10:00</itunes:duration>
       <itunes:explicit>no</itunes:explicit>
     </item>"""
 
