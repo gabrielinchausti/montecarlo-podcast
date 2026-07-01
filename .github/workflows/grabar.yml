@@ -1,8 +1,8 @@
 name: Grabar Montecarlo 6:30am
 
 on:
-  schedule:
-    - cron: '25 21 * * *'   # 6:28 AM Uruguay (UTC-3)
+  repository_dispatch:
+    types: [grabar]
   workflow_dispatch:
 
 jobs:
