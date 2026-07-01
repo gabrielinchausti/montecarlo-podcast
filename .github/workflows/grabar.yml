@@ -16,7 +16,7 @@ jobs:
 
       - name: Instalar radiocut_downloader
         run: |
-          pip install moviepy radiocut_downloader --break-system-packages
+          pip install "moviepy==1.0.3" radiocut_downloader --break-system-packages
 
       - name: Descargar audio de las 6:30 desde RadioCut
         run: |
