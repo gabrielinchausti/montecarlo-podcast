@@ -42,7 +42,7 @@ jobs:
           files: "${{ env.NOMBRE }}.mp3"
 
       - name: Esperar que GitHub procese el release
-        run: sleep 30
+        run: sleep 60
 
       - name: Actualizar feed RSS
         env:
