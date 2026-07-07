@@ -1,60 +1,28 @@
 #!/usr/bin/env python3
-"""
-Genera el feed RSS del podcast a partir de los releases de GitHub.
-"""
-
-import json
 import os
-import urllib.request
-import urllib.error
+import glob
 from datetime import datetime
 
-# ─── Configuración ────────────────────────────────────────────────────────────
-REPO        = os.environ.get("REPO", "TU_USUARIO/montecarlo-podcast")
-TOKEN       = os.environ.get("GITHUB_TOKEN", "")
-OWNER, NAME = REPO.split("/")
-BASE_URL    = f"https://github.com/{REPO}/releases/download"
-FEED_TITLE  = "Radio Montecarlo – Noticias"
-FEED_DESC   = "Grabaciones de Radio Montecarlo CX20 930 AM, Uruguay."
-FEED_LINK   = "https://www.radiomontecarlo.com.uy"
-FEED_LANG   = "es-uy"
-FEED_IMG    = "https://www.radiomontecarlo.com.uy/artworks/artworks_radiomontecarlocomuy/logos/logo_social.jpg"
-MAX_EPS     = 90   # 3 episodios por día × 30 días
-# ──────────────────────────────────────────────────────────────────────────────
+BASE_URL   = "https://gabrielinchausti.github.io/montecarlo-podcast/audio"
+FEED_TITLE = "Radio Montecarlo – Noticias"
+FEED_DESC  = "Grabaciones de Radio Montecarlo CX20 930 AM, Uruguay."
+FEED_LINK  = "https://www.radiomontecarlo.com.uy"
+FEED_LANG  = "es-uy"
+FEED_IMG   = "https://www.radiomontecarlo.com.uy/artworks/artworks_radiomontecarlocomuy/logos/logo_social.jpg"
 
-
-def fetch_releases():
-    url = f"https://api.github.com/repos/{REPO}/releases?per_page={MAX_EPS}"
-    headers = {"User-Agent": "montecarlo-podcast-rss/1.0"}
-    if TOKEN:
-        headers["Authorization"] = f"Bearer {TOKEN}"
-    req = urllib.request.Request(url, headers=headers)
-    with urllib.request.urlopen(req, timeout=15) as resp:
-        return json.loads(resp.read())
-
-
-def release_to_item(release):
-    tag = release["tag_name"]   # ep-2026-06-29-0628
-
-    # Separar fecha y hora del tag
-    partes = tag.replace("ep-", "").split("-")
-    # partes = ['2026', '06', '29', '0628']
-    fecha = "-".join(partes[:3])   # 2026-06-29
-    hora  = partes[3] if len(partes) > 3 else "0000"  # 0628
-
-    # Formatear hora para mostrar: 0628 → 06:28
+def archivo_to_item(nombre):
+    # nombre = "episodio-2026-07-03-0629"
+    partes = nombre.replace("episodio-", "").split("-")
+    fecha  = "-".join(partes[:3])
+    hora   = partes[3] if len(partes) > 3 else "0000"
     hora_display = f"{hora[:2]}:{hora[2:]}"
+    mp3_url = f"{BASE_URL}/{nombre}.mp3"
 
-    # URL directa al MP3
-    nombre  = f"episodio-{fecha}-{hora}"
-    mp3_url = f"{BASE_URL}/{tag}/{nombre}.mp3"
-
-    # Fecha en formato RFC 2822 para RSS
     try:
         dt       = datetime.strptime(f"{fecha} {hora}", "%Y-%m-%d %H%M")
         pub_date = dt.strftime("%a, %d %b %Y %H:%M:%S -0300")
     except ValueError:
-        pub_date = release.get("published_at", "")[:10]
+        pub_date = fecha
 
     return f"""
     <item>
@@ -67,8 +35,7 @@ def release_to_item(release):
       <itunes:explicit>no</itunes:explicit>
     </item>"""
 
-
-def build_feed(items_xml: str) -> str:
+def build_feed(items_xml):
     now = datetime.utcnow().strftime("%a, %d %b %Y %H:%M:%S +0000")
     return f"""<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0"
@@ -89,25 +56,18 @@ def build_feed(items_xml: str) -> str:
 </rss>
 """
 
-
 def main():
-    print("Obteniendo releases de GitHub...")
-    try:
-        releases = fetch_releases()
-    except urllib.error.HTTPError as e:
-        print(f"Error al consultar la API de GitHub: {e}")
-        raise
+    print("Leyendo archivos de audio/...")
+    archivos = sorted(glob.glob("audio/episodio-*.mp3"), reverse=True)
+    print(f"  → {len(archivos)} episodios encontrados")
 
-    print(f"  → {len(releases)} releases encontrados")
-
-    items_xml = "".join(release_to_item(r) for r in releases)
+    nombres   = [os.path.basename(a).replace(".mp3", "") for a in archivos]
+    items_xml = "".join(archivo_to_item(n) for n in nombres)
     feed      = build_feed(items_xml)
 
     with open("feed.xml", "w", encoding="utf-8") as f:
         f.write(feed)
-
     print("feed.xml generado correctamente.")
-
 
 if __name__ == "__main__":
     main()

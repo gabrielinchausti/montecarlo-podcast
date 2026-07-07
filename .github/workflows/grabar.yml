@@ -32,14 +32,17 @@ jobs:
           echo "FECHA=${FECHA}" >> $GITHUB_ENV
           echo "HORA=${HORA}" >> $GITHUB_ENV
           echo "NOMBRE=${NOMBRE}" >> $GITHUB_ENV
-
-      - name: Subir MP3 como Release
-        uses: softprops/action-gh-release@v2.2.1
-        with:
-          tag_name: "ep-${{ env.FECHA }}-${{ env.HORA }}"
-          name: "Montecarlo - ${{ env.FECHA }} ${{ env.HORA }}"
-          body: "Grabación de Radio Montecarlo CX20 - ${{ env.FECHA }} ${{ env.HORA }}"
-          files: "${{ env.NOMBRE }}.mp3"
+  
+      - name: Guardar MP3 en el repo
+        run: |
+          mkdir -p audio
+          cp "${{ env.NOMBRE }}.mp3" "audio/${{ env.NOMBRE }}.mp3"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add "audio/${{ env.NOMBRE }}.mp3"
+          git commit -m "Episodio ${{ env.NOMBRE }}"
+          git pull --rebase origin main
+          git push
 
       - name: Esperar que GitHub procese el release
         run: sleep 60
@@ -59,18 +62,12 @@ jobs:
           git pull --rebase origin main
           git push
 
-      - name: Borrar episodios viejos (más de 30 días)
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Borrar episodios viejos (más de 7 días)
         run: |
-          gh release list --limit 100 --json tagName,publishedAt \
-          | python3 -c "
-          import json, sys, subprocess, datetime
-          releases = json.load(sys.stdin)
-          cutoff = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=30)
-          for r in releases:
-              fecha = datetime.datetime.fromisoformat(r['publishedAt'].replace('Z','+00:00'))
-              if fecha < cutoff:
-                  subprocess.run(['gh', 'release', 'delete', r['tagName'], '--yes', '--cleanup-tag'])
-                  print(f'Borrado: {r[\"tagName\"]}')
-          "
+          find audio/ -name "*.mp3" -mtime +7 -delete
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Limpieza episodios viejos" || echo "Sin cambios"
+          git pull --rebase origin main
+          git push
