@@ -36,7 +36,7 @@ jobs:
       - name: Guardar MP3 en el repo
         run: |
           mkdir -p audio
-          cp "${{ env.NOMBRE }}.mp3" "audio/${{ env.NOMBRE }}.mp3"
+          mv "${{ env.NOMBRE }}.mp3" "audio/${{ env.NOMBRE }}.mp3"
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add "audio/${{ env.NOMBRE }}.mp3"
@@ -64,10 +64,17 @@ jobs:
 
       - name: Borrar episodios viejos (más de 7 días)
         run: |
-          find audio/ -name "*.mp3" -mtime +7 -delete
+          CUTOFF=$(date -d '7 days ago' +%Y-%m-%d)
+          for f in audio/episodio-*.mp3; do
+            [ -e "$f" ] || continue
+            fecha=$(basename "$f" | cut -d- -f2-4)
+            if [[ "$fecha" < "$CUTOFF" ]]; then
+              echo "Borrando $f (del $fecha)"
+              git rm -q "$f"
+            fi
+          done
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add -A
           git commit -m "Limpieza episodios viejos" || echo "Sin cambios"
           git pull --rebase origin main
           git push
