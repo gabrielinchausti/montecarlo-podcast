@@ -8,7 +8,7 @@ FEED_TITLE = "Radio Montecarlo – Noticias"
 FEED_DESC  = "Grabaciones de Radio Montecarlo CX20 930 AM, Uruguay."
 FEED_LINK  = "https://www.radiomontecarlo.com.uy"
 FEED_LANG  = "es-uy"
-FEED_IMG   = "https://www.radiomontecarlo.com.uy/artworks/artworks_radiomontecarlocomuy/logos/logo_social.jpg"
+FEED_IMG   = "https://gabrielinchausti.github.io/montecarlo-podcast/cover.jpg"
 
 def archivo_to_item(nombre):
     # nombre = "episodio-2026-07-03-0629"
