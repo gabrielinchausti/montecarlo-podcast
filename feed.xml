@@ -7,12 +7,21 @@
     <link>https://www.radiomontecarlo.com.uy</link>
     <description>Grabaciones de Radio Montecarlo CX20 930 AM, Uruguay.</description>
     <language>es-uy</language>
-    <lastBuildDate>Tue, 28 Jul 2026 09:40:39 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 29 Jul 2026 09:41:15 +0000</lastBuildDate>
     <itunes:author>Radio Montecarlo CX20 930 AM</itunes:author>
     <itunes:category text="News"/>
     <itunes:image href="https://gabrielinchausti.github.io/montecarlo-podcast/cover.jpg"/>
     <itunes:explicit>no</itunes:explicit>
     
+    <item>
+      <title>Montecarlo 06:30 – 2026-07-29</title>
+      <description>Grabación de Radio Montecarlo CX20 930 AM del 2026-07-29 a las 06:30</description>
+      <pubDate>Wed, 29 Jul 2026 06:30:00 -0300</pubDate>
+      <enclosure url="https://gabrielinchausti.github.io/montecarlo-podcast/audio/episodio-2026-07-29-0630.mp3" type="audio/mpeg" length="0"/>
+      <guid isPermaLink="false">https://gabrielinchausti.github.io/montecarlo-podcast/audio/episodio-2026-07-29-0630.mp3</guid>
+      <itunes:duration>10:00</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+    </item>
     <item>
       <title>Montecarlo 06:29 – 2026-07-28</title>
       <description>Grabación de Radio Montecarlo CX20 930 AM del 2026-07-28 a las 06:29</description>
@@ -73,15 +82,6 @@
       <pubDate>Tue, 21 Jul 2026 06:29:00 -0300</pubDate>
       <enclosure url="https://gabrielinchausti.github.io/montecarlo-podcast/audio/episodio-2026-07-21-0629.mp3" type="audio/mpeg" length="0"/>
       <guid isPermaLink="false">https://gabrielinchausti.github.io/montecarlo-podcast/audio/episodio-2026-07-21-0629.mp3</guid>
-      <itunes:duration>10:00</itunes:duration>
-      <itunes:explicit>no</itunes:explicit>
-    </item>
-    <item>
-      <title>Montecarlo 06:29 – 2026-07-20</title>
-      <description>Grabación de Radio Montecarlo CX20 930 AM del 2026-07-20 a las 06:29</description>
-      <pubDate>Mon, 20 Jul 2026 06:29:00 -0300</pubDate>
-      <enclosure url="https://gabrielinchausti.github.io/montecarlo-podcast/audio/episodio-2026-07-20-0629.mp3" type="audio/mpeg" length="0"/>
-      <guid isPermaLink="false">https://gabrielinchausti.github.io/montecarlo-podcast/audio/episodio-2026-07-20-0629.mp3</guid>
       <itunes:duration>10:00</itunes:duration>
       <itunes:explicit>no</itunes:explicit>
     </item>
