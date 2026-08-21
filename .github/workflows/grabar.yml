@@ -23,7 +23,7 @@ jobs:
           HORA=$(TZ="America/Montevideo" date +%H%M)
           NOMBRE="episodio-${FECHA}-${HORA}"
           echo "Grabando ${NOMBRE}..."
-          ffmpeg -i "streamingcasazorrilla.innovanexo.com:8000/montecarlo.mp3" \
+          ffmpeg -i "https:streamingcasazorrilla.innovanexo.com:8000/montecarlo.mp3" \
             -t 600 \
             -acodec libmp3lame \
             -ab 128k \
