@@ -1,0 +1,82 @@
+name: Grabar Montecarlo 6:30am
+
+on:
+  repository_dispatch:
+    types: [grabar]
+  workflow_dispatch:
+
+jobs:
+  grabar:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4.2.2
+
+      - name: Instalar ffmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+
+      - name: Grabar 10 minutos del stream
+        run: |
+          FECHA=$(TZ="America/Montevideo" date +%Y-%m-%d)
+          HORA=$(TZ="America/Montevideo" date +%H%M)
+          NOMBRE="episodio-${FECHA}-${HORA}"
+          echo "Grabando ${NOMBRE}..."
+          ffmpeg -i "https:streamingcasazorrilla.innovanexo.com:8000/montecarlo.mp3" \
+            -t 600 \
+            -acodec libmp3lame \
+            -ab 128k \
+            -y \
+            "${NOMBRE}.mp3"
+          echo "FECHA=${FECHA}" >> $GITHUB_ENV
+          echo "HORA=${HORA}" >> $GITHUB_ENV
+          echo "NOMBRE=${NOMBRE}" >> $GITHUB_ENV
+  
+      - name: Guardar MP3 en el repo
+        run: |
+          mkdir -p audio
+          mv "${{ env.NOMBRE }}.mp3" "audio/${{ env.NOMBRE }}.mp3"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add "audio/${{ env.NOMBRE }}.mp3"
+          git commit -m "Episodio ${{ env.NOMBRE }}"
+          git pull --rebase origin main
+          git push
+
+      - name: Esperar que GitHub procese el release
+        run: sleep 60
+
+      - name: Actualizar feed RSS
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: python3 generar_rss.py
+
+      - name: Commit y push del RSS actualizado
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add feed.xml
+          git commit -m "RSS actualizado ${{ env.FECHA }}-${{ env.HORA }}" || echo "Sin cambios"
+          git pull --rebase origin main
+          git push
+
+      - name: Borrar episodios viejos (más de 3 días)
+        run: |
+          CUTOFF=$(date -d '3 days ago' +%Y-%m-%d)
+          for f in audio/episodio-*.mp3; do
+            [ -e "$f" ] || continue
+            fecha=$(basename "$f" | cut -d- -f2-4)
+            if [[ "$fecha" < "$CUTOFF" ]]; then
+              echo "Borrando $f (del $fecha)"
+              git rm -q "$f"
+            fi
+          done
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git commit -m "Limpieza episodios viejos" || echo "Sin cambios"
+          git pull --rebase origin main
+          git push
