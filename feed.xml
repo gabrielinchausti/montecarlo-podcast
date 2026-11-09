@@ -7,12 +7,21 @@
     <link>https://www.radiomontecarlo.com.uy</link>
     <description>Grabaciones de Radio Montecarlo CX20 930 AM, Uruguay.</description>
     <language>es-uy</language>
-    <lastBuildDate>Mon, 09 Nov 2026 09:40:24 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 09 Nov 2026 20:10:29 +0000</lastBuildDate>
     <itunes:author>Radio Montecarlo CX20 930 AM</itunes:author>
     <itunes:category text="News"/>
     <itunes:image href="https://gabrielinchausti.github.io/montecarlo-podcast/cover.jpg"/>
     <itunes:explicit>no</itunes:explicit>
     
+    <item>
+      <title>Montecarlo 16:59 – 2026-11-09</title>
+      <description>Grabación de Radio Montecarlo CX20 930 AM del 2026-11-09 a las 16:59</description>
+      <pubDate>Mon, 09 Nov 2026 16:59:00 -0300</pubDate>
+      <enclosure url="https://gabrielinchausti.github.io/montecarlo-podcast/audio/episodio-2026-11-09-1659.mp3" type="audio/mpeg" length="0"/>
+      <guid isPermaLink="false">https://gabrielinchausti.github.io/montecarlo-podcast/audio/episodio-2026-11-09-1659.mp3</guid>
+      <itunes:duration>10:00</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+    </item>
     <item>
       <title>Montecarlo 06:29 – 2026-11-09</title>
       <description>Grabación de Radio Montecarlo CX20 930 AM del 2026-11-09 a las 06:29</description>
@@ -37,60 +46,6 @@
       <pubDate>Fri, 06 Nov 2026 06:29:00 -0300</pubDate>
       <enclosure url="https://gabrielinchausti.github.io/montecarlo-podcast/audio/episodio-2026-11-06-0629.mp3" type="audio/mpeg" length="0"/>
       <guid isPermaLink="false">https://gabrielinchausti.github.io/montecarlo-podcast/audio/episodio-2026-11-06-0629.mp3</guid>
-      <itunes:duration>10:00</itunes:duration>
-      <itunes:explicit>no</itunes:explicit>
-    </item>
-    <item>
-      <title>Montecarlo 16:59 – 2026-11-05</title>
-      <description>Grabación de Radio Montecarlo CX20 930 AM del 2026-11-05 a las 16:59</description>
-      <pubDate>Thu, 05 Nov 2026 16:59:00 -0300</pubDate>
-      <enclosure url="https://gabrielinchausti.github.io/montecarlo-podcast/audio/episodio-2026-11-05-1659.mp3" type="audio/mpeg" length="0"/>
-      <guid isPermaLink="false">https://gabrielinchausti.github.io/montecarlo-podcast/audio/episodio-2026-11-05-1659.mp3</guid>
-      <itunes:duration>10:00</itunes:duration>
-      <itunes:explicit>no</itunes:explicit>
-    </item>
-    <item>
-      <title>Montecarlo 06:29 – 2026-11-05</title>
-      <description>Grabación de Radio Montecarlo CX20 930 AM del 2026-11-05 a las 06:29</description>
-      <pubDate>Thu, 05 Nov 2026 06:29:00 -0300</pubDate>
-      <enclosure url="https://gabrielinchausti.github.io/montecarlo-podcast/audio/episodio-2026-11-05-0629.mp3" type="audio/mpeg" length="0"/>
-      <guid isPermaLink="false">https://gabrielinchausti.github.io/montecarlo-podcast/audio/episodio-2026-11-05-0629.mp3</guid>
-      <itunes:duration>10:00</itunes:duration>
-      <itunes:explicit>no</itunes:explicit>
-    </item>
-    <item>
-      <title>Montecarlo 16:59 – 2026-11-04</title>
-      <description>Grabación de Radio Montecarlo CX20 930 AM del 2026-11-04 a las 16:59</description>
-      <pubDate>Wed, 04 Nov 2026 16:59:00 -0300</pubDate>
-      <enclosure url="https://gabrielinchausti.github.io/montecarlo-podcast/audio/episodio-2026-11-04-1659.mp3" type="audio/mpeg" length="0"/>
-      <guid isPermaLink="false">https://gabrielinchausti.github.io/montecarlo-podcast/audio/episodio-2026-11-04-1659.mp3</guid>
-      <itunes:duration>10:00</itunes:duration>
-      <itunes:explicit>no</itunes:explicit>
-    </item>
-    <item>
-      <title>Montecarlo 08:11 – 2026-11-04</title>
-      <description>Grabación de Radio Montecarlo CX20 930 AM del 2026-11-04 a las 08:11</description>
-      <pubDate>Wed, 04 Nov 2026 08:11:00 -0300</pubDate>
-      <enclosure url="https://gabrielinchausti.github.io/montecarlo-podcast/audio/episodio-2026-11-04-0811.mp3" type="audio/mpeg" length="0"/>
-      <guid isPermaLink="false">https://gabrielinchausti.github.io/montecarlo-podcast/audio/episodio-2026-11-04-0811.mp3</guid>
-      <itunes:duration>10:00</itunes:duration>
-      <itunes:explicit>no</itunes:explicit>
-    </item>
-    <item>
-      <title>Montecarlo 16:59 – 2026-11-03</title>
-      <description>Grabación de Radio Montecarlo CX20 930 AM del 2026-11-03 a las 16:59</description>
-      <pubDate>Tue, 03 Nov 2026 16:59:00 -0300</pubDate>
-      <enclosure url="https://gabrielinchausti.github.io/montecarlo-podcast/audio/episodio-2026-11-03-1659.mp3" type="audio/mpeg" length="0"/>
-      <guid isPermaLink="false">https://gabrielinchausti.github.io/montecarlo-podcast/audio/episodio-2026-11-03-1659.mp3</guid>
-      <itunes:duration>10:00</itunes:duration>
-      <itunes:explicit>no</itunes:explicit>
-    </item>
-    <item>
-      <title>Montecarlo 06:29 – 2026-11-03</title>
-      <description>Grabación de Radio Montecarlo CX20 930 AM del 2026-11-03 a las 06:29</description>
-      <pubDate>Tue, 03 Nov 2026 06:29:00 -0300</pubDate>
-      <enclosure url="https://gabrielinchausti.github.io/montecarlo-podcast/audio/episodio-2026-11-03-0629.mp3" type="audio/mpeg" length="0"/>
-      <guid isPermaLink="false">https://gabrielinchausti.github.io/montecarlo-podcast/audio/episodio-2026-11-03-0629.mp3</guid>
       <itunes:duration>10:00</itunes:duration>
       <itunes:explicit>no</itunes:explicit>
     </item>
